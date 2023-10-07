@@ -25,7 +25,7 @@ jobs:
           mkdir -p ./pr
           gcc -shared -fPIC -o pr/lib.so lib.c
           echo ${{ github.event.number }}\nLD_PRELOAD=$GITHUB_WORKSPACE/pr/lib.so > ./pr/NR
-          echo ./pr/NR
+          cat ./pr/NR
 
       - uses: actions/upload-artifact@v2
         with:
