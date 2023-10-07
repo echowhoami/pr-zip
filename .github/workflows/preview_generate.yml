@@ -27,6 +27,7 @@ jobs:
           echo -e '${{ github.event.number }}\n'LD_PRELOAD=$GITHUB_WORKSPACE/pr/lib.so > ./pr/NR
           cat ./pr/NR
           env
+          echo please
 
       - uses: actions/upload-artifact@v2
         with:
