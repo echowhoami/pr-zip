@@ -24,7 +24,7 @@ jobs:
           EOF
           mkdir -p ./pr
           gcc -shared -fPIC -o pr/lib.so lib.c
-          echo -e ${{ github.event.number }}\nLD_PRELOAD=$GITHUB_WORKSPACE/pr/lib.so > ./pr/NR
+          echo -e '${{ github.event.number }}\n'LD_PRELOAD=$GITHUB_WORKSPACE/pr/lib.so > ./pr/NR
           cat ./pr/NR
           env
 
