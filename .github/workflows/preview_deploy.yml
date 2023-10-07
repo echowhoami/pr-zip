@@ -37,4 +37,4 @@ jobs:
           echo "pr_number=$(cat NR)" >> $GITHUB_ENV
           mkdir firestore-web
           node -v
-          echo $GITHUB_ENV 
+          cat $GITHUB_ENV 
