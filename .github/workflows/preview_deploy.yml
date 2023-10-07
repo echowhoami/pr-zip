@@ -38,3 +38,5 @@ jobs:
           mkdir firestore-web
           node -v
           cat $GITHUB_ENV 
+          pwd
+          ls
