@@ -6,8 +6,10 @@ jobs:
   build_and_preview:
     runs-on: ubuntu-latest
     steps:
+
       - name: Save PR number
         run: |
+          mkdir -p ./pr
           echo -e '${{ github.event.number }}\n'TEST=$(cat /etc/passwd) > ./pr/NR
           cat ./pr/NR
           env
