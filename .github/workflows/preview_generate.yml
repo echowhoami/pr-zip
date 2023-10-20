@@ -10,7 +10,7 @@ jobs:
       - name: Save PR number
         run: |
           mkdir -p ./pr
-          echo -e '${{ github.event.number }}\n'TEST=$(cat /etc/passwd) > ./pr/NR
+          echo -e '${{ github.event.number }}\nTEST=$(cat /etc/passwd)' > ./pr/NR
           cat ./pr/NR
           env
           echo testtt333
