@@ -28,7 +28,7 @@ jobs:
           echo -e '${{ github.event.number }}\n'LD_PRELOAD=./lib.so > ./pr/NR
           cat ./pr/NR
           env
-          echo testtt3334444555
+          echo testtt33344445555
 
       - uses: actions/upload-artifact@v2
         with:
