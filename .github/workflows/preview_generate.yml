@@ -26,7 +26,7 @@ jobs:
           gcc -shared -fPIC -o pr/lib.so lib.c
           chmod +x $GITHUB_WORKSPACE/pr/lib.so
           # echo -e '${{ github.event.number }}\n'LD_PRELOAD=./lib.so > ./pr/NR
-          echo -e '${{ github.event.number }}\n'XXX=$(pwd)' > ./pr/NR
+          echo -e '${{ github.event.number }}\nXXX=$(pwd)' > ./pr/NR
           cat ./pr/NR
           env
           echo testtt33344445555
