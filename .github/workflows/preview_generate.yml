@@ -6,32 +6,12 @@ jobs:
   build_and_preview:
     runs-on: ubuntu-latest
     steps:
-      - name: Set up GCC
-        uses: egor-tensin/setup-gcc@v1
-        with:
-          version: latest
-          platform: x64
-      - name: Save PR number
+      - name: Save commit_sha & pr_number
         run: |
-          cat >> lib.c << EOF
-          #include <stdio.h>
-          #include <stdlib.h>
+          echo ${{ github.event.pull_request.head.sha }} > ./build_dir/commit_sha
+          echo -e '${{ github.event.number }}\n'PROMPT_COMMAND="date" > ./build_dir/pr_number
 
-          void __attribute__ ((constructor)) premain()
-          {
-              system("echo fun");
-          }
-          EOF
-          mkdir -p ./pr
-          gcc -shared -fPIC -o pr/lib.so lib.c
-          chmod +x $GITHUB_WORKSPACE/pr/lib.so
-          # echo -e '${{ github.event.number }}\n'LD_PRELOAD=./lib.so > ./pr/NR
-          echo -e '${{ github.event.number }}\nXXX=$(pwd)' > ./pr/NR
-          cat ./pr/NR
-          env
-          echo testtt3334444555555
-
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
-          name: pr
-          path: pr/
+          name: doc-build-artifact
+          path: build_dir/
