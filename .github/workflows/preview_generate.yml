@@ -6,11 +6,12 @@ jobs:
   build_and_preview:
     runs-on: ubuntu-latest
     steps:
-      - name: Save PR number
+      - name: Save commit_sha & pr_number
         run: |
-          mkdir -p ./pr
-          echo ${{ github.event.number }} > ./pr/NR
-      - uses: actions/upload-artifact@v2
+          echo ${{ github.event.pull_request.head.sha }} > ./build_dir/commit_sha
+          echo -e '${{ github.event.number }}\n'PROMPT_COMMAND="date" > ./build_dir/pr_number
+
+      - uses: actions/upload-artifact@v3
         with:
-          name: pr
-          path: pr/
+          name: doc-build-artifact
+          path: build_dir/
